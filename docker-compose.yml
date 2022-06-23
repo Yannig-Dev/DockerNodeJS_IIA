@@ -1,0 +1,69 @@
+version: '3.9'
+
+networks:
+  appnodejsnwk:
+
+services:
+  appnodejs-mysql:
+    container_name: appnodejs-mysql
+    volumes:
+      - db:/val/lib/mysql
+    image: mysql
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: 1
+      MYSQL_DATABASE: "${DB_NAME}"
+      MYSQL_USER: "${DB_USER}"
+      MYSQL_PASSWORD: "${DB_PASSWORD}"
+    networks:
+      - appnodejsnwk
+    healthcheck:
+      test:
+        - CMD
+        - mysqladmin
+        - ping
+        - "-h"
+        - localhost
+      timeout: 20s
+      retries: 10
+
+  appnodejs-app:
+    container_name: appnodejs-app
+    hostname: appnodejs-app
+    image: yannigiia/appnodejsimg
+    networks:
+      - appnodejsnwk
+    depends_on:
+      appnodejs-mysql:
+        condition: service_healthy
+    environment:
+      DB_HOST: appnodejs-mysql
+      DB_NAME : "${DB_NAME}"
+      DB_USER : "${DB_USER}"
+      DB_PASSWORD : "${DB_PASSWORD}"
+
+  appnodejs-phpmyadmin:
+    container_name: appnodejs-phpmyadmin
+    image: phpmyadmin
+    networks:
+      - appnodejsnwk
+    depends_on:
+      appnodejs-mysql:
+        condition: service_healthy
+    environment:
+      PMA_HOST: appnodejs-mysql
+      PMA_USER: "${DB_USER}"
+      PMA_PASSWORD: "${DB_PASSWORD}"
+
+  appnodejs-nginx:
+    container_name: appnodejs-nginx
+    image: yannigiia/nginxappnodeimg
+    hostname: appnodejs-nginx
+    ports:
+      - 80:80
+    depends_on:
+      - appnodejs-app
+    networks:
+      - appnodejsnwk
+
+volumes:
+  db:
