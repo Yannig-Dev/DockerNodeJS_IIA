@@ -14,9 +14,8 @@ L'architecture Docker est construite de la manière suivante :
       - Un conteneur pour un gestion de la BDD avec PhpMyAdmin
       - Un conteneur MySQL pour la BDD
 
-Tous les accès aux données et à la gestion de la base de données ainsi qu'à l'application passent par le conteneur Nginx.
+Tous les accès aux données et à la gestion de la base de données ainsi qu'à l'application passent par le conteneur Nginx. Les ports ne sont donc pas mappés dans le docker-compose pour des raisons de sécurité.
 
-Les ports ne sont donc pas mappés dans le docker-compose pour des raisons de sécurité.
 Un fichier ```.env``` doit être créé. Il contient les informations de la BDD (nom, credentials).
 
 ![schéma docker](https://user-images.githubusercontent.com/88578151/175386608-601fc360-59ef-427c-a63f-57acd115c612.png)
