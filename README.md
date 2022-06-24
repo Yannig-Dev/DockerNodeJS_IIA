@@ -16,7 +16,7 @@ L'architecture Docker est construite de la manière suivante :
 
 Tous les accès aux données et à la gestion de la base de données ainsi qu'à l'application passent par le conteneur Nginx. Les ports ne sont donc pas mappés dans le docker-compose pour des raisons de sécurité.
 
-Un fichier ```.env``` doit être créé. Il contient les informations de la BDD (nom, credentials).
+Un fichier ```.env``` contient les informations de la BDD (nom, credentials) qui sont des informations sensibles.
 
 ![schéma docker](https://user-images.githubusercontent.com/88578151/175386608-601fc360-59ef-427c-a63f-57acd115c612.png)
 
@@ -26,12 +26,7 @@ Pour l'installation de cette configuration (ou orchestration) de Docker, il faut
   - Avoir téléchargé et installé Docker (https://docs.docker.com/get-docker/)
   - Récupérer le fichier ```docker-compose.yml```
   - Le placer dans un répertoire (faire au plus simple, un dossier sur le bureau ira très bien)
-  - Dans ce même répertoire, créer un fichier ```.env``` dans lequel il faut écrire :
-  ```
-  DB_NAME=appnodejsdb
-  DB_USER=admin
-  DB_PASSWORD=securiteavanttout
-  ```
+  - Dans ce même répertoire, récupérer et place le fichier ```.env``` disponible sur ce repository.
   - Ouvrir un terminal de commande et exécuter la commande suivante : ```docker compose up -d``` (***-d*** n'est pas obligatoire, il permet de détacher le processus de build dans le terminal)
 
 ## Utilisation
